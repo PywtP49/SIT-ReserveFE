@@ -1,0 +1,28 @@
+@import "tailwindcss";
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.bg {
+  background-image: url("../IMG/Group_101.jpg");
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  height: 100vh; /* Sets the height to 100% of the viewport height */
+  width: 100%;
+  }
+
+@layer components {
+  .Nav {
+    border-bottom-left-radius: 50% 20px;
+    border-bottom-right-radius: 50% 20px;
+
+  }
+
+  .Main{
+    text-shadow:4px 5px 9px #000000
+  }
+}
