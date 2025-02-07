@@ -6,20 +6,45 @@ on:
       - main
 
 jobs:
-  frontend-deploy:
-    name: Deploy Express Frontend
+  vite-build:
+    name: Build Vite Frontend
     runs-on: self-hosted
-    container: alpine
+    container: node:lts
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and build Vite project
+        run: |
+          npm ci
+          npm run build
+
+      - name: Debug build output
+        run: ls -R ./dist
+
+      - name: Upload Vite build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vite-build-artifact
+          path: ./dist
+
+  deploy:
+    name: Deploy To Preview Server
+    runs-on: self-hosted
     timeout-minutes: 10
+    container: alpine
+    needs: [vite-build]
     env:
       REMOTE_SFTP_LOGIN: ${{ secrets.REMOTE_SFTP_LOGIN }}
       REMOTE_SSH_ARGS: ${{ secrets.REMOTE_SSH_ARGS }}
       REMOTE_SSH_PASSWORD: ${{ secrets.REMOTE_SSH_PASSWORD }}
       REMOTE_SFTP_HOST: ${{ secrets.REMOTE_SFTP_HOST }}
-      ENV_FILE_CONTENT: ${{ secrets.ENV_FILE_CONTENT }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: vite-build-artifact
+          path: ./artifact
 
       - name: Install required tools
         run: |
@@ -27,47 +52,16 @@ jobs:
 
       - name: Create directory on server
         run: |
-          sshpass -p $REMOTE_SSH_PASSWORD ssh $REMOTE_SSH_ARGS -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "mkdir -p ~/hippo-frontend"
+          sshpass -p "$REMOTE_SSH_PASSWORD" ssh "$REMOTE_SSH_ARGS" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "mkdir -p ~/hippo-frontend"
 
-      - name: Set directory permissions
+      - name: Upload artifacts to server
+        run: |
+          lftp -d -e "set sftp:auto-confirm yes; set net:timeout 60; set net:max-retries 2; set net:reconnect-interval-base 5; debug 3; open $REMOTE_SFTP_LOGIN; mirror -v --reverse --delete ./artifact ~/hippo-frontend; bye"
+
+      - name: Serve Frontend
         run: |
           sshpass -p $REMOTE_SSH_PASSWORD ssh $REMOTE_SSH_ARGS -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
-          chmod -R 755 ~/hippo-frontend
-          "
-
-      - name: Upload project files to server
-        run: |
-          lftp -d -e "set sftp:auto-confirm yes; set net:timeout 60; set net:max-retries 2; set net:reconnect-interval-base 5; debug 3; open $REMOTE_SFTP_LOGIN; mirror -v --reverse --delete . ~/hippo-frontend; bye"
-
-      # - name: Write .env file on server
-      #   run: |
-      #     sshpass -p $REMOTE_SSH_PASSWORD ssh $REMOTE_SSH_ARGS -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
-      #     echo -e '$ENV_FILE_CONTENT' | base64 -d > ~/hippo-backend/.env &&
-      #     echo '' >> ~/hippo-backend/.env
-      #     "
-      # - name: Write .env file on server
-      #  run: |
-      #    sshpass -p "$REMOTE_SSH_PASSWORD" ssh "$REMOTE_SSH_ARGS" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null << 'EOF'
-      #    cat > ~/hippo-backend/.env <<EOL
-      #    $ENV_FILE_CONTENT
-      #    EOL
-      #    EOF
-
-      - name: Install dependencies on server
-        run: |
-          sshpass -p $REMOTE_SSH_PASSWORD ssh $REMOTE_SSH_ARGS -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
-          cd ~/hippo-frontend &&
-          export NVM_DIR=\$HOME/.nvm &&
-          [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" &&
-          npm ci
-          "
-
-      - name: Start Frontend
-        run: |
-          sshpass -p $REMOTE_SSH_PASSWORD ssh $REMOTE_SSH_ARGS -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
-          export NVM_DIR=\$HOME/.nvm &&
-          [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" &&
-          npx pm2 describe frontend || npx pm2 stop frontend || true &&
-          npx pm2 delete frontend || true &&
-          pm2 serve ~/hippo-frontend --name frontend --port 80
+          pm2 describe frontend || pm2 stop frontend || true &&
+          pm2 delete frontend || true &&
+          pm2 serve ~/hippo-frontend --name frontend --port 3000
           "
