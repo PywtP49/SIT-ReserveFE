@@ -51,7 +51,7 @@ jobs:
 
       - name: Install required tools
         run: |
-          apk add --no-cache openssh-client sshpass lftp
+          apk add openssh-client sshpass lftp
 
       - name: Create directory on server
         run: |
@@ -64,6 +64,9 @@ jobs:
       - name: Serve Frontend
         run: |
           sshpass -p "$REMOTE_SSH_PASSWORD" ssh "$REMOTE_SSH_ARGS" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
-          pm2 delete frontend || true
-          pm2 serve ~/hippo-frontend --name frontend --port 80
+          export NVM_DIR=\$HOME/.nvm &&
+          [ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\" &&
+          pm2 describe frontend || pm2 stop frontend || true &&
+          pm2 delete frontend || true &&
+          pm2 serve ~/hippo-frontend --nae frontend --port 80
           "
