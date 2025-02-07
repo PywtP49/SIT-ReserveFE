@@ -12,7 +12,7 @@ jobs:
     container: node:lts
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install dependencies and build Vite project
         run: |
@@ -23,7 +23,7 @@ jobs:
         run: ls -R ./dist
 
       - name: Upload Vite build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: vite-build-artifact
           path: ./dist
@@ -41,7 +41,7 @@ jobs:
       REMOTE_SFTP_HOST: ${{ secrets.REMOTE_SFTP_HOST }}
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: vite-build-artifact
           path: ./artifact
