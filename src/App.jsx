@@ -14,7 +14,6 @@ function App() {
     <div>
        <Router>     
         <Routes>
-
           <Route path="/Mainpage" element={<Mainpage />} />
           <Route path="/RoomlistLX" element={<RoomListLX/>} />
           <Route path="/Roombooking" element={<RoomBooking/>} />
