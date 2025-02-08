@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Navbar3 from "./Navbar3";
+import {create} from "zustand";
 
 export default function Select() {
   const [building, setBuilding] = useState("");
@@ -19,6 +20,7 @@ export default function Select() {
 
   return (
     <>
+    {/* <Navbar3/> */}
       <div className="w-[1061px] h-50 relative">
         <div className="w-[1061px] h-20 left-0 top-0 absolute bg-[#f0efef]/90 rounded-[15px]" />
         <form onSubmit={handleSubmit}>

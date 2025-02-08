@@ -44,13 +44,6 @@ const RoomBooking = () => {
   }, [location.search, location.state]);
 
   // ตรวจสอบว่ามีข้อมูลพอสำหรับการจองหรือไม่
-  useEffect(() => {
-    if (!location.state) {
-      alert("Please select date and time before booking.");
-      navigate("/"); // กลับไปหน้าเลือกเวลา
-    }
-  }, [location.state, navigate]);
-
   const handleConfirm = () => {
     if (!bookingData.name.trim()) {
       alert("Please enter your name before confirming.");
