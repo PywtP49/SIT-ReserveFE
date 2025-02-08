@@ -4,16 +4,24 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./css/App.css";
 import Mainpage from "./React/Homepagejsx/Mainpage";
-import TaskScheduler from "./React/Homepagejsx/Calendars";
-
+// import TimeTable from "./React/Homepagejsx/Calendars";
+import RoomListLX from "./React/Homepagejsx/RoomListLX";
+import RoomBooking from "./React/Homepagejsx/RoomBooking";
+import Navbar from "./React/Homepagejsx/Navbar";
+import Navbar2 from "./React/Homepagejsx/Navbar2";
 function App() {
   return (
-      <Router>
+    <div>
+       <Router>     
         <Routes>
-          <Route path="/" element={<Mainpage />} />
-          <Route path="/TaskScheduler" element={<TaskScheduler/>} />
+
+          <Route path="/Mainpage" element={<Mainpage />} />
+          <Route path="/RoomlistLX" element={<RoomListLX/>} />
+          <Route path="/Roombooking" element={<RoomBooking/>} />
         </Routes>
       </Router>
+    </div>
+     
   );
 }
 

@@ -1,4 +1,9 @@
 @import "tailwindcss";
+.app {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
 body, html {
   margin: 0;
   padding: 0;
@@ -7,7 +12,7 @@ body, html {
   overflow: hidden;
 }
 .bg {
-  background-image: url("../IMG/Group_101.jpg");
+  background-image: url("../../public/IMG/Group_101.jpg");
   background-size: cover; /* Ensures the image covers the entire area */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
@@ -22,7 +27,4 @@ body, html {
 
   }
 
-  .Main{
-    text-shadow:4px 5px 9px #000000
-  }
 }
