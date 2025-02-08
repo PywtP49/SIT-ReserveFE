@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Mainpage from "./Mainpage";
+
 const Navbar2 = () => {
   return (
     <>
       <div className="flex justify-between mx-6.5">
         <div className="w-[198px] h-[26px] text-center text-black text-[22px] font-medium font-sans-serif tracking-tight my-6">
-          <Link to = "/Mainpage">SIT Room Booking</Link>
+          <Link to = "/">SIT Room Booking</Link>
         </div>
 
         <div className="top-0 w-[60%] max-w-5xl bg-[#23486a] shadow-2xl rounded-b-[50px] px-7 py-4 flex justify-center items-center Nav">

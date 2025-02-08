@@ -12,7 +12,7 @@ body, html {
   overflow: hidden;
 }
 .bg {
-  background-image: url("../../public/IMG/Group_101.jpg");
+  background-image: url("../../public/images/Group_101.jpg");
   background-size: cover; /* Ensures the image covers the entire area */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */

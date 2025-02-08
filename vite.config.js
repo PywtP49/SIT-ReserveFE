@@ -4,5 +4,14 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://helloworld10.sit.kmutt.ac.th:3000',
+  //       changeOrigin: true,
+  //       secure: false
+  //     }
+  //   }
+  // },
   plugins: [react() , tailwindcss()],
 })

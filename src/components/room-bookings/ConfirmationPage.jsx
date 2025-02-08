@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Mainpage from "./Mainpage";
+import Mainpage from "../homepage/Mainpage";
 
 const ConfirmationPage = () => {
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ const ConfirmationPage = () => {
             
             <button 
                 className="mt-6 bg-blue-900 text-white px-6 py-3 rounded-lg shadow-md"
-                onClick={() => navigate("/Mainpage")}
+                onClick={() => navigate("/")}
             >
                 Back to Home
             </button>

@@ -9,10 +9,13 @@
   }
   
   .rooms-container {
+    padding: 16px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    height: 80vh;
+    overflow-y: scroll;
   }
   
   .room-card {

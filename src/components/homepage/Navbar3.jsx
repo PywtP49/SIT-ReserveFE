@@ -5,23 +5,23 @@ const Navbar2 = () => {
   const navigate = useNavigate();
   const [building, setBuilding] = useState("");
   const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
+  const [time_start, settime_start] = useState("");
   const [endTime, setEndTime] = useState("");
 
   const handleBookNow = () => {
-    if (!building || !date || !startTime || !endTime) {
+    if (!building || !date || !time_start || !endTime) {
       alert("Please fill in all fields before booking.");
       return;
     }
 
     // คำนวณระยะเวลา
-    const duration = calculateDuration(date, startTime, endTime);
+    const duration = calculateDuration(date, time_start, endTime);
 
     navigate("/roombooking", {
       state: {
         building,
         startDate: date,
-        startTime,
+        time_start,
         endDate: date, // กรณีจองวันเดียวกัน
         endTime,
         duration,
