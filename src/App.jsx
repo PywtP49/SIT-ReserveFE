@@ -1,19 +1,27 @@
-import { useState } from "react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import BrowserRouter
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./css/App.css";
-import Mainpage from "./React/Homepagejsx/Mainpage";
-import TaskScheduler from "./React/Homepagejsx/Calendars";
+import Mainpage from "./components/homepage/Mainpage";
+import RoomList from "./components/room-lists/RoomList";
+import RoomBooking from "./components/room-bookings/RoomBooking";
+import CancelBooking from "./components/room-bookings/CancelBooking"
+
+// import TimeTable from "./React/Homepagejsx/Calendars";
+
 
 function App() {
   return (
-      <Router>
+    <div>
+       <Router>     
         <Routes>
-          <Route path="/" element={<Mainpage />} />
-          <Route path="/TaskScheduler" element={<TaskScheduler/>} />
+          <Route path="" element={<Mainpage />} />
+          <Route path="/room-lists" element={<RoomList/>} />
+          <Route path="/roombooking" element={<RoomBooking/>} />  
+          <Route path="/confirmation" element={<CancelBooking/>} />
         </Routes>
       </Router>
+    </div>
+     
   );
 }
 
