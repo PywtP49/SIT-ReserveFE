@@ -14,7 +14,7 @@ export default function Select() {
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate(
-      `/booking-details?building=${building}&date=${date}&start=${startTime}&end=${endTime}`
+      `/RoomlistLX?building=${building}&date=${date}&start=${startTime}&end=${endTime}`
     );
   };
 
@@ -45,12 +45,12 @@ export default function Select() {
             </select>
           </div>
           <div className="w-[140px] h-[51.05px] p-2 left-[906px] top-[16px] absolute bg-[#23486a] rounded-[15px] justify-center items-center gap-2 inline-flex transition-transform duration-300 hover:scale-110">
-            <Link to = "/RoomlistLX"
+            <button
               type="submit"
-              className="text-white text-lg font-normal font-sans-serif justify-between"
+              className="justify-between text-lg font-normal text-white font-sans-serif"
             >
               Book now
-            </Link>
+            </button>
           </div>
           <div className="w-[189px] h-[51px] p-2 left-[504px] top-[16px] absolute rounded-[15px] border border-black justify-center items-center gap-2 inline-flex">
             <input

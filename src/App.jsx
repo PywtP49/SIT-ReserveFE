@@ -14,9 +14,10 @@ function App() {
     <div>
        <Router>     
         <Routes>
-          <Route path="/Mainpage" element={<Mainpage />} />
-          <Route path="/RoomlistLX" element={<RoomListLX/>} />
-          <Route path="/Roombooking" element={<RoomBooking/>} />
+        <Route path="/" element={<Mainpage />} />
+          <Route path="/mainpage" element={<Mainpage />} />
+          <Route path="/roomlistlx" element={<RoomListLX/>} />
+          <Route path="/roombooking" element={<RoomBooking/>} />
         </Routes>
       </Router>
     </div>
