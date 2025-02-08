@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Navbar2 from "./Navbar2";
 
 const CheckCircle = () => (
-  <svg className="w-20 h-20 text-green-500 mx-auto" viewBox="0 0 24 24" fill="none">
+  <svg className="w-20 h-20 mx-auto text-green-500" viewBox="0 0 24 24" fill="none">
     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
     <path d="M8 12l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
@@ -30,16 +30,24 @@ const RoomBooking = () => {
     const queryParams = new URLSearchParams(location.search);
     const room = queryParams.get("room");
     const status = queryParams.get("status");
+    const date = queryParams.get("date");
+    const start = queryParams.get("start");
+    const end = queryParams.get("end");
 
+    const startDate = start ? new Date(date).toLocaleDateString() : "--";
+    const endDate = end ? new Date(date).toLocaleDateString() : "--";
+
+    const duration = start && end ? `${start} - ${end}` : "Unknown";
+    
     setBookingData((prev) => ({
       ...prev,
       room: room || prev.room,
       status: status || prev.status,
-      startDate: location.state?.startDate || prev.startDate,
-      startTime: location.state?.startTime || prev.startTime,
-      endDate: location.state?.endDate || prev.endDate,
-      endTime: location.state?.endTime || prev.endTime,
-      duration: location.state?.duration || prev.duration,
+      startDate,
+      startTime: start,
+      endDate,
+      endTime: end,
+      duration
     }));
   }, [location.search, location.state]);
 
@@ -62,16 +70,16 @@ const RoomBooking = () => {
   return (
     <>
       <Navbar2 />
-      <div className="flex flex-col items-center bg-white min-h-screen">
-        <div className="w-full max-w-4xl mt-20 px-6">
-          <div className="flex flex-col md:flex-row items-center">
+      <div className="flex flex-col items-center min-h-screen bg-white">
+        <div className="w-full max-w-4xl px-6 mt-20">
+          <div className="flex flex-col items-center md:flex-row">
             {/* Image */}
             <div className="w-full md:w-1/2">
-              <img src="/IMG/room.jpg" alt="room" className="w-full rounded-xl shadow-lg" />
+              <img src="/IMG/room.jpg" alt="room" className="w-full shadow-lg rounded-xl" />
             </div>
 
             {/* Booking Details */}
-            <div className="w-full md:w-1/2 md:pl-8 mt-6 md:mt-0">
+            <div className="w-full mt-6 md:w-1/2 md:pl-8 md:mt-0">
               <h1 className="text-3xl font-bold">{bookingData.room}</h1>
               <p className="mt-4 text-lg"><strong>Room Status:</strong> {bookingData.status}</p>
 
@@ -86,7 +94,7 @@ const RoomBooking = () => {
                 <input
                   type="text"
                   placeholder="Enter your name"
-                  className="w-full p-3 rounded-xl bg-gray-200 shadow-xl mt-2"
+                  className="w-full p-3 mt-2 bg-gray-200 shadow-xl rounded-xl"
                   value={bookingData.name}
                   onChange={(e) => setBookingData({ ...bookingData, name: e.target.value })}
                 />
@@ -97,7 +105,7 @@ const RoomBooking = () => {
                 <label className="block text-lg font-semibold">Description:</label>
                 <textarea
                   placeholder="Enter description (optional)"
-                  className="w-full p-3 rounded-xl bg-gray-200 shadow-xl mt-2"
+                  className="w-full p-3 mt-2 bg-gray-200 shadow-xl rounded-xl"
                   value={bookingData.description}
                   onChange={(e) => setBookingData({ ...bookingData, description: e.target.value })}
                 />
@@ -115,7 +123,7 @@ const RoomBooking = () => {
               </button>
 
               {/* Cancel Button */}
-              <button className="mt-4 bg-gray-300 text-gray-700 px-6 py-3 rounded-lg shadow-md w-full" onClick={() => navigate("/")}>
+              <button className="w-full px-6 py-3 mt-4 text-gray-700 bg-gray-300 rounded-lg shadow-md" onClick={() => navigate("/")}>
                 Cancel
               </button>
             </div>
@@ -126,11 +134,11 @@ const RoomBooking = () => {
       {/* Popup Message */}
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+          <div className="p-8 text-center bg-white rounded-lg shadow-lg">
             <CheckCircle />
-            <h2 className="text-2xl font-bold mt-4">Booking Confirmed!</h2>
+            <h2 className="mt-4 text-2xl font-bold">Booking Confirmed!</h2>
             <p className="mt-2">Your room has been successfully booked.</p>
-            <button className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md" onClick={handleDone}>
+            <button className="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg shadow-md" onClick={handleDone}>
               Done
             </button>
           </div>

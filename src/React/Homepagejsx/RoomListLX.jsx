@@ -1,4 +1,5 @@
 import "react";
+import { useLocation } from "react-router-dom";
 import "../../../src/css/RoomList.css";
 import Navbar2 from "./Navbar2";
 import { Link } from "react-router-dom";
@@ -16,6 +17,12 @@ const rooms = [
 ];
 
 const RoomListLX = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const start = searchParams.get("start") || "";
+  const end = searchParams.get("end") || "";
+  const date = searchParams.get("date") || "";
+  
   return (
     <>
       <Navbar2 />
@@ -34,7 +41,7 @@ const RoomListLX = () => {
                 <h3 className="room-id">{room.id}</h3>
                 <Link 
                   className="book-btn" 
-                  to={`/roombooking?room=${room.id}&status=${room.status}`}
+                  to={`/roombooking?room=${room.id}&status=${room.status}&start=${start}&end=${end}&date=${date}`}
                 >
                   Book Now
                 </Link>
